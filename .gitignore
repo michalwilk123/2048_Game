@@ -1,0 +1,7 @@
+/.idea
+/.target
+.*maven_test.iml
+Help.md
+.*iml
+data.ser
+module-info.java
