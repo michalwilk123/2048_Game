@@ -1,5 +1,5 @@
 /.idea
-/.target
+/target
 .*maven_test.iml
 Help.md
 .*iml

@@ -2,32 +2,16 @@ package pl.michalwilk;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import pl.michalwilk.business.GameMode;
 
 public class PrimaryController {
 
     private void switch_to_main_game(){
         try {
-            App.setRoot("secondary");
+            App.start_main_game();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void set_root(String s){
-        try {
-            App.setRoot(s);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @FXML
-    public void initialize(){
-
     }
 
     @FXML

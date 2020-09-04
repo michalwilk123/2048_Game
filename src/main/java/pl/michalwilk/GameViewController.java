@@ -8,8 +8,9 @@ import javafx.scene.layout.AnchorPane;
 import pl.michalwilk.business.GameGrid;
 import pl.michalwilk.business.GameSavedData;
 
+import java.io.IOException;
+
 public class GameViewController {
-    // TODO: TUTAJ TRZEBA ZMIENIC TO NA GAMEGRID I W FXMLU WYJEBAC GP NA ANCHORPANE
     public enum Moves{
         UP, DOWN, RIGHT, LEFT
     }
@@ -22,7 +23,6 @@ public class GameViewController {
 
     @FXML
     private Label highscore_label;
-    // TODO: DODAC HANDLERY DO OBU LABELOW !!! TAK SAMO DO TYCH PRZYCISKOW
     @FXML
     private Button restart_button;
     @FXML
@@ -30,18 +30,38 @@ public class GameViewController {
 
     private GameSavedData gameSavedData;
     private GameGrid game_grid;
+    public static String label_text;
+    private long high_score;
+    private long current_score;
 
     @FXML
     public void initialize(){
-        game_grid = new GameGrid();
+        if (game_grid == null){
+            game_grid = new GameGrid();
+            // adding first tile
+            game_grid.add_tile();
+        }
+        else{
+            game_grid.create_gamegrid();
+            game_grid.rebuild_grid();
+        }
         grid_container.getChildren().add(game_grid);
-
         highscore_label.setText("HIGHSCORE: " + gameSavedData.get_highest_score());
-
-        // adding first tile
-        game_grid.add_tile();
+        high_score = Integer.parseInt(gameSavedData.get_highest_score());
+        current_score = 0;
+        System.out.println("initialized");
     }
 
+    @FXML
+    public void shutdown(){
+        // this function will run when exit button would be pressed
+        gameSavedData.setGameGrid(null);
+
+        if (game_grid.isGameInterrupted()){
+            gameSavedData.setGameGrid(this.game_grid);
+        }
+        gameSavedData.save_data();
+    }
 
     @FXML
     public void key_pressed(KeyEvent keyEvent){
@@ -50,47 +70,43 @@ public class GameViewController {
             case DOWN:  game_grid.move(Moves.DOWN);     update_score(); break;
             case RIGHT: game_grid.move(Moves.RIGHT);    update_score(); break;
             case LEFT:  game_grid.move(Moves.LEFT);     update_score(); break;
+            case NUMPAD0:;  case U : undo_button_clicked(); break;
         };
     }
 
-    private static int retrieve_integer(Label l){
-        int cursor = 0;
-        for(char c : l.getText().toCharArray()){
-            if(Character.isDigit(c))    break;
-            else    cursor++;
+    @FXML
+    public void restart_game(){
+        try {
+            App.start_main_game();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if (cursor == l.getText().toCharArray().length){
-            System.out.println("empty label!!");
-            return -1;
-        }
+    }
 
-        int value = Integer.parseInt(l.getText().substring(cursor));
-        return value;
+    @FXML
+    public void undo_button_clicked(){
+        game_grid.rollback();
     }
 
     private void update_score() {
-        int s_value = retrieve_integer(score_label);
-        int hs_value = retrieve_integer(highscore_label);
+        long current_round_score = game_grid.get_current_round_score();
 
-        int current_round_score = game_grid.get_current_round_score();
-
-        s_value += current_round_score;
-        if (s_value > hs_value){
-            highscore_label.setText("HIGHSCORE: " + Integer.toString(s_value));
+        current_score += current_round_score;
+        if (current_score > high_score){
+            high_score = current_score;
+            highscore_label.setText("HIGHSCORE: " + Integer.toString((int) high_score));
         }
-        score_label.setText("SCORE: " + Integer.toString(s_value));
+        score_label.setText("SCORE: " + Integer.toString((int) current_score));
+        label_text = score_label.getText();
+        game_grid.set_round_score(0);
     }
-
 
     public GameViewController(){
         gameSavedData = new GameSavedData();
         if(App.is_game_continued()){
-            gameSavedData.load_from_memory();
-            this.continue_game();
-            System.out.println("game is continued");
+            gameSavedData = GameSavedData.load_from_memory();
+            game_grid = gameSavedData.getGameGrid();
+            //gameSavedData.setGameGrid(game_grid);
         }
-    }
-
-    private void continue_game() {
     }
 }
