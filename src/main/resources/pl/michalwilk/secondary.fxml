@@ -6,13 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.michalwilk.GameViewController">
+<VBox alignment="CENTER" onKeyPressed="#key_pressed" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.michalwilk.GameViewController">
    <children>
       <AnchorPane fx:id="grid_container" maxWidth="480.0" minHeight="480.0" minWidth="480.0" prefHeight="480.0" prefWidth="480.0">
          <VBox.margin>
             <Insets bottom="5.0" top="5.0" />
          </VBox.margin></AnchorPane>
-      <Pane maxHeight="110.0" maxWidth="500.0" minHeight="100.0" prefHeight="110.0" prefWidth="480.0" style="-fx-background-color: #C0C0C0;">
+      <Pane maxHeight="110.0" maxWidth="500.0" minHeight="100.0" prefHeight="110.0" prefWidth="480.0" style="-fx-background-color: #3F88C5;">
          <VBox.margin>
             <Insets />
          </VBox.margin>
@@ -22,11 +22,11 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Label fx:id="score_label" layoutX="14.0" layoutY="14.0" prefHeight="16.0" prefWidth="216.0" text="SCORE: 0" />
+                  <Label fx:id="score_label" layoutX="14.0" layoutY="14.0" prefHeight="16.0" prefWidth="216.0" text="SCORE: 911" />
                   <Label fx:id="highscore_label" layoutX="14.0" layoutY="45.0" prefHeight="16.0" prefWidth="216.0" text="HIGHSCORE: 0" />
                </children>
             </AnchorPane>
-            <Button fx:id="restart_button" layoutX="306.0" layoutY="10.0" mnemonicParsing="false" onAction="#restart_game" onKeyPressed="#key_pressed" prefHeight="90.0" prefWidth="83.0" text="Restart">
+            <Button fx:id="restart_button" layoutX="306.0" layoutY="10.0" mnemonicParsing="false" onKeyPressed="#key_pressed" prefHeight="90.0" prefWidth="83.0" text="Restart">
                <font>
                   <Font name="Lato Regular" size="16.0" />
                </font>
@@ -34,7 +34,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="undo_button" layoutX="403.0" layoutY="10.0" mnemonicParsing="false" onAction="#undo_button_clicked" onKeyPressed="#key_pressed" prefHeight="90.0" prefWidth="83.0" text="Undo">
+            <Button fx:id="undo_button" layoutX="403.0" layoutY="10.0" mnemonicParsing="false" onKeyPressed="#key_pressed" prefHeight="90.0" prefWidth="83.0" text="Undo">
                <font>
                   <Font name="Lato Regular" size="16.0" />
                </font>
