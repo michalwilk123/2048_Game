@@ -6,6 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.michalwilk.GameOverController">
+   <children>
       <AnchorPane prefHeight="264.0" prefWidth="500.0">
          <children>
             <Label fx:id="end_score_label" layoutX="102.0" layoutY="89.0" text="YOUR SCORE: " />
@@ -29,4 +30,5 @@
                </cursor></Button>
          </children>
       </AnchorPane>
+   </children>
 </VBox>
